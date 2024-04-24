@@ -1,38 +1,20 @@
 import { useState } from "react";
 import { Heading, Container, Box, Flex, Spacer, Stack, HStack, VStack, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
 import Navbar from  "../components/Navbar";
-import MainLayout from "../components/Home/Home";
-import ProductContainer from "../components/ProductContainer";
-import SearchBox from "../components/SearchBox";
-import Maps from "../components/Maps";
+import _Social from "../components/Social/_Social";
 
-function Home() {
-  const [selectPosition, setSelectPosition] = useState(null);
-  const boxStyle = {
-    p : "10px",
-    bg : "tomato",
-    color : "white",
-    fontWeight : "bold",
-    borderRadius : "5px",
-    boxShadow : "md",
-    _hover : {
-      bg : "green"
-    }
-  };
-
+function Social() {
+ 
   return (
     <>
-      <MainLayout />
-
-    
-
+       
+        <_Social />
 
     </>
   );
 }
 
-export default Home;
+export default Social;
 
 
 

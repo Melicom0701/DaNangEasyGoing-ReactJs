@@ -3,7 +3,7 @@ import { Box, Flex, Text, space, Divider, IconButton, Spacer } from '@chakra-ui/
 import { FiMenu, FiHome } from 'react-icons/fi';
 import NavItem from './NavItem';
 
-const SideBar = () => {
+const SideBar = (props) => {
     const [navSize, setNavSize] = React.useState("large");
     return (
         <Flex direction="column"
@@ -55,10 +55,13 @@ const SideBar = () => {
                     </IconButton>
                     
                     </div>
-                    <NavItem navSize={navSize} title="Home" icon={FiHome} active/>
-                    <NavItem navSize={navSize} title="Dashboard" icon={FiHome} />
-                    <NavItem navSize={navSize} title="Settings" icon={FiHome} />
-                    <NavItem navSize={navSize} title="Logout" icon={FiHome} />
+
+                    {/* assign active to  */}
+                    
+                    <NavItem navSize={navSize} title="Travel" icon={FiHome} active={props._active=='Travel'?1:0}  link="/"/>
+                    <NavItem navSize={navSize} title="Social" icon={FiHome} active={props._active=='Social'?1:0} link="/social" />
+                    <NavItem navSize={navSize} title="Easy Going" icon={FiHome} active={props._active=='EasyGoing'?1:0}/>
+                    <NavItem navSize={navSize} title="Your Trip" icon={FiHome} active={props._active=='YourTrip'?1:0}/>
                 </Flex>
 
             </Flex>

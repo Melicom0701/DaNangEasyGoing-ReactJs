@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Heading, Container, Box, Flex, Spacer, Stack, HStack, VStack, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import Navbar from  "./components/Navbar";
-import MainLayout from "./components/Home/Home";
+import MainLayout from "./components/Travel/Travel";
 import ProductContainer from "./components/ProductContainer";
 import SearchBox from "./components/SearchBox";
 import Maps from "./components/Maps";

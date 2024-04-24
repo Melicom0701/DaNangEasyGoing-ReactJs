@@ -6,7 +6,7 @@ import React from "react";
 
 
 
-export default function NavItem({ navSize, title, icon,active }) {
+export default function NavItem({ navSize, title, icon,active,link }) {
     return (
         <Flex
             mt={30}
@@ -16,6 +16,7 @@ export default function NavItem({ navSize, title, icon,active }) {
         >
             <Menu placement="right">
                 <Link
+                    href={link}
                     backgroundColor={active && "blue.400"}
                     p={3}
                     borderRadius={8}

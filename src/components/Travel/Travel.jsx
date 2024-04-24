@@ -58,19 +58,27 @@ export default function MainLayout() {
         class="GridFrame"
       >
         <GridItem  colSpan={1} rounded='10px' position ="fixed">
-          <SideBar />
+          <SideBar _active="Travel" />
         </GridItem> 
 
-        <GridItem colSpan={6} bg={Bgr} p='30px' rounded='20px' margin="0 0 0 250px">
-          <Input placeholder='Hôm nay ăn gì ...' bg='white' />
-          <Tabs>
-            <TabList>
+       
+       
+        <GridItem colSpan={6} bg={Bgr} rounded='20px' margin="0 0 0 250px">
+        
+          <Tabs p="0 30px 0 30px">
+          <div style={{ backgroundColor: "white", position: "sticky", top: "0", zIndex: "1", height: "100px", width: "1400px" }}>
+        
+            <Input placeholder='Hôm nay ăn gì ...' bg='white'  position="sticky" top="20px" zIndex="999" w="1000px" />
+            <TabList position="sticky" top="60px" zIndex="999" >
               <Tab onClick={() => setBgr('White')}>Ẩm Thực</Tab>
               <Tab onClick={() => setBgr('White')}>Du Lịch</Tab>
               <Tab onClick={() => setBgr('White')}>Booking</Tab>
             </TabList>
+            </div>
+            
 
-            <TabPanels>
+            <Divider />
+            <TabPanels p="">
               <TabPanel>
                 <SimpleGrid columns={5} spacing={10} minChildWidth='250px'>
                   {FoodItems.map((item) => (
