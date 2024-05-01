@@ -7,8 +7,7 @@ function Social() {
  
   return (
     <>
-        <_Social />
-      
+      <_Social />
     </>
   );
 }
@@ -19,6 +18,7 @@ export default Social;
 
 
 {/* 
+ <_Social />
         
 <div style={{border: '2px solid red',display:"flex",flexDirection:"row",width:"100vw",height:"100vh"}}>
         <div style={{border: '2px solid red',width:"50vw"}}>

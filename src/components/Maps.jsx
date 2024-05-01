@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer ,useMap,useMapEvents} from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
 import L from "leaflet"
-const position = [16.0736657, 108.1472941]
+//const position = [16.0736657, 108.1472941];
+const position = [16.067986, 108.212505]
 const icon = L.icon({
     iconUrl : "./placeHolder.png",
     iconSize :[38,38]
@@ -55,7 +56,8 @@ export default function Maps(props) {
   const {selectPosition} = props;
   const locationSelection = selectPosition? [selectPosition.lat,selectPosition.lon]:position; 
   return (
-    <MapContainer center={locationSelection} zoom={13} style={{width:'100%',height:'100%'}}>
+    
+    <MapContainer center={locationSelection} zoom={13} style={{width:'100%',height:'100%', borderRadius:"30px"}}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.jpg?key=1keTF1e0ieHUf4ObsB7a"

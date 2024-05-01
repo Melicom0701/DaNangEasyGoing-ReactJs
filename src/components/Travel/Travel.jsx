@@ -3,9 +3,9 @@ import { Grid, GridItem, Heading, SimpleGrid, Text, Box, Tabs, TabList, Tab, Tab
 import React, { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom"
 import { Input } from '@chakra-ui/react'
-import FoodItem from "../FoodItem";
-import TravelItem from "../TravelItem";
-import Booking from "../Booking";
+import FoodItem from "./FoodItem";
+import TravelItem from "./TravelItem";
+import Booking from "./Booking";
 import SideBar from "../SideBar/SideBar";
 export default function MainLayout() {
   const background = "./DaNanBg.jpg"

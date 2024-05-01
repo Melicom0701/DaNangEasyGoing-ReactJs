@@ -59,7 +59,7 @@ const SideBar = (props) => {
                     {/* assign active to  */}
                     
                     <NavItem navSize={navSize} title="Travel" icon={FiHome} active={props._active=='Travel'?1:0}  link="/"/>
-                    <NavItem navSize={navSize} title="Social" icon={FiHome} active={props._active=='Social'?1:0} link="/social" />
+                    <NavItem navSize={navSize} title="Review" icon={FiHome} active={props._active=='Review'?1:0} link="/Review" />
                     <NavItem navSize={navSize} title="Easy Going" icon={FiHome} active={props._active=='EasyGoing'?1:0}/>
                     <NavItem navSize={navSize} title="Your Trip" icon={FiHome} active={props._active=='YourTrip'?1:0}/>
                 </Flex>
@@ -67,7 +67,7 @@ const SideBar = (props) => {
             </Flex>
             <Flex
                 p="5%"
-                flexDir="column"
+                flexDir="column"    
                 w="100%"
                 alignItems="flex-start"
                 mb={4}
