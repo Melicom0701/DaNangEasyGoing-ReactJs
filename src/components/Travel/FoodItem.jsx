@@ -28,11 +28,11 @@ export default function CardItem({item}) {
                 <CardBody class="commentor" h="75px" p="5px" >
                     <Flex justify="center" align="center">
                     <Box w="70px" p="5px">
-                        <Image src={item.TopComment.profilePicture} alt={item.TopComment.author} rounded="100%" w="100%" />
+                        {/* <Image src={item.TopComment.profilePicture} alt={item.TopComment.author} rounded="100%" w="100%" /> */}
                     </Box>
                     <Box>
-                        <Text fontSize="xs" as='b'>{item.TopComment.author}</Text>
-                        <Text fontSize="xs" color="#9B9B9B" >{TruncatedText(item.TopComment.content,70)}</Text>
+                        {/* <Text fontSize="xs" as='b'>{item.TopComment.author}</Text> */}
+                        {/* <Text fontSize="xs" color="#9B9B9B" >{TruncatedText(item.TopComment.content,70)}</Text> */}
                     </Box>
                     </Flex>
                     

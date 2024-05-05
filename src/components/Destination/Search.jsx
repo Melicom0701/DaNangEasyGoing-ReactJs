@@ -71,7 +71,7 @@ var searchResult = [
     
 ]
 //take only max 8 items from searchResult
-searchResult = searchResult.slice(0,6);
+searchResult = searchResult.slice(0,9);
 
 
 export default function Search()
@@ -110,7 +110,7 @@ export default function Search()
                 <Input placeholder="Search" w="300px"  onBlur={FinishSearchHandle} onChange={SearchHandle}/>
                 </InputGroup>
                 {onsearch && (
-                    <Box  bg="white" boxShadow="xl" p="20px" borderRadius="lg"> 
+                    <Box  bg="white" boxShadow="xl" p="0px" borderRadius="lg"> 
                     {
                         searchResult.map((item) => {
                             return (

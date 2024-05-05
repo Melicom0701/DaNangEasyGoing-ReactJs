@@ -39,7 +39,7 @@ export default function Menu()
         <>
             <Flex direction="column">
 
-                    <Box  bg="white" boxShadow="xl" p="20px" borderRadius="lg" w="250px" color="gray"> 
+                    <Box  bg="white" boxShadow="lg" p="20px" borderRadius="lg" w="250px" color="gray"> 
                     {
                         _Menu.map((item) => {
                             return (

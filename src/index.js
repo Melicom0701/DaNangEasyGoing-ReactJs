@@ -6,7 +6,8 @@ import Social from "./pages/social";
 import Travel from "./pages/travel";
 import { ChakraProvider } from "@chakra-ui/react";
 import { tasksLoader } from "./components/Travel/Travel";
-import Destination_Detail from "./components/Destination/Destination_Detail";
+import Login from "./pages/login"
+import DetailPage from "./pages/detail";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -15,7 +16,8 @@ root.render(
         <Routes>
           <Route path="/" element={<Travel />} />
           <Route path="/social" element={<Social />} />
-          <Route path="/detail" element={<Destination_Detail />} />
+          <Route path="/detail" element={<DetailPage />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </ChakraProvider>
     </BrowserRouter>

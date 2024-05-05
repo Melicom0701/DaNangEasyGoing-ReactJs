@@ -1,46 +1,72 @@
 
 import { Grid, GridItem, Heading, SimpleGrid, Text, Box, Tabs, TabList, Tab, TabPanel, TabPanels , Divider} from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useLoaderData } from "react-router-dom"
 import { Input } from '@chakra-ui/react'
 import FoodItem from "./FoodItem";
 import TravelItem from "./TravelItem";
 import Booking from "./Booking";
 import SideBar from "../SideBar/SideBar";
+import InfiniteScroll from "./InfiniteScroll";
+let maxItem = 10;
+const destructuredItem =(item) =>
+  {
+    const res = {
+      id:item.id,
+      title:item.name,
+      location:item.location,
+      image:item.image,
+      price:item.averagePrice,
+      rating:item.rating,
+      description : item.description,
+      
+    }
+    return res;
+
+  }
+
+const getFoodItems = async (limit=0) => {
+  let resData = [];
+  //fetch 
+  await fetch(process.env.REACT_APP_ENDPOINT+'destination/food?page=0'+'&limit='+(limit+1)*10)
+  .then(res => res.json())
+  .then(data => {
+    console.log(data)
+    maxItem = data.count;
+    resData = data.rows.map((item) => destructuredItem(item));
+  }
+  )
+  .catch(err => console.log(err));
+  return resData;
+}
 export default function MainLayout() {
-  const background = "./DaNanBg.jpg"
+  
   const [FoodItems, setFoodItems] = useState([]);
   const [TravelItems, setTravelItems] = useState([]);
   const [BookingItems, setBookingItems] = useState([]);
+  const [Page, setPage] = useState(0);
   const [Bgr, setBgr] = useState("WHITE")
+  const [hasMore, setHasMore] = useState(true);
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/FoodItems');
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        const data = await response.json();
-        setFoodItems(data);
-        //travel
-        const response2 = await fetch('http://localhost:3000/TravelItems');
-        if (!response2.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        const data2 = await response2.json();
-        setTravelItems(data2);
-        const response3 = await fetch('http://localhost:3000/BookingItems');
-        if (!response3.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        const data3 = await response3.json();
-        setBookingItems(data3);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchItems();
-  }, []);
+    console.log("x")
+    getFoodItems(Page).then((data) => {
+      setFoodItems(data);
+    })
+    //hasMore  ?
+    const total = Page*10;
+    if(total > maxItem)
+    {
+      setHasMore(false);
+    }
+ 
+
+
+
+  },[Page]);
+
+  
+
+
 
   return (
     <>
@@ -80,11 +106,21 @@ export default function MainLayout() {
             <Divider />
             <TabPanels p="">
               <TabPanel>
-                <SimpleGrid columns={5} spacing={10} minChildWidth='250px'>
+                <InfiniteScroll
+                loader={<p>loading...</p>}
+                className="w-[800px] mx-auto my-10"
+                fetchMore={() => setPage((prev) => prev + 1)}
+                hasMore={hasMore}
+                endMessage={<p>Hết Rồi! </p>}>
+
+                
+                <SimpleGrid columns={5} spacing={5} minChildWidth='250px'>
+                  
                   {FoodItems.map((item) => (
                     <FoodItem key={item.id} item={item} />
                   ))}
                 </SimpleGrid>
+                </InfiniteScroll>
               </TabPanel>
 
               <TabPanel>
@@ -113,8 +149,3 @@ export default function MainLayout() {
   );
 }
 
-export const tasksLoader = async () => {
-  const response = await fetch('http://localhost:3000/items');
-  const data = await response.json();
-  return data;
-}

@@ -2,6 +2,7 @@ import DesCard from "./DesCard";
 import React from "react";
 import { Grid, GridItem, Spacer } from "@chakra-ui/react";
 import Review from "./Review";
+import SideBar from "../SideBar/SideBar";
 import { useState } from "react";
 import {
   Text,
@@ -18,7 +19,7 @@ import {
 import Search from "../Destination/Search";
 import Menu from "./Menu";
 import Maps from "../Maps";
-export default function Destination_Detail() {
+export default function Detail() {
   const TruncatedText = (text, maxLength) => {
     const truncatedText =
       text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
@@ -41,12 +42,25 @@ export default function Destination_Detail() {
         backgroundColor: "rgb(240,242,245)",
       }}
     >
-      <Grid templateColumns="repeat(6, 1fr)" gap={6}>
-        <GridItem w="100%" h="10" />
+      <Grid templateColumns="repeat(6, 1fr)" gap={2}>
+        <div style={{
+            backgroundColor: "rgb(240,242,245)",
+            position: "sticky",
+            top: "0",
+            zIndex: "1",
+            height: "50px",
+            width: "100%",
+        }}>
+
+        <GridItem h="10">
+            <SideBar />
+
+        </GridItem>
+        </div>
         <GridItem colSpan={4}>
           <DesCard />
 
-          <Grid templateColumns="repeat(6,1fr)" gap={6}>
+          <Grid templateColumns="repeat(6,1fr)" gap={2}>
             <GridItem colSpan={1}>
               <div
                 style={{
@@ -57,7 +71,7 @@ export default function Destination_Detail() {
                   height: "50px",
                 }}
               >
-                <Flex h="50px" align="center" justify="center">
+                <Flex h="78px" align="center" justify="center">
                   <Text color="red" as="b">
                     {" "}
                     Menu{" "}
@@ -117,8 +131,19 @@ export default function Destination_Detail() {
             </GridItem>
           </Grid>
         </GridItem>
-
-        <GridItem w="100%" h="10" />
+        <div style={{
+            backgroundColor: "rgb(240,242,245)",
+            position: "sticky",
+            top: "0",
+            zIndex: "1",
+            height: "50px",
+            width: "100%",
+        
+        }}>
+        <GridItem w="100%" p="px 0 0 0">
+            {/* <Search /> */}
+        </GridItem>
+        </div>
       </Grid>
 
       {onMaps&&(
