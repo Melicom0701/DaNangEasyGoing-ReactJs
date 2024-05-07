@@ -1,6 +1,7 @@
 
-import { Grid, GridItem, Heading, SimpleGrid, Text, Box, Tabs, TabList, Tab, TabPanel, TabPanels , Divider} from "@chakra-ui/react";
+import {Flex,  Grid, GridItem, Heading, SimpleGrid, Text, Box, Tabs, TabList, Tab, TabPanel, TabPanels , Divider} from "@chakra-ui/react";
 import React, { useEffect, useState, useCallback } from "react";
+import {LoadingOutlined } from '@ant-design/icons';
 import { useLoaderData } from "react-router-dom"
 import { Input } from '@chakra-ui/react'
 import FoodItem from "./FoodItem";
@@ -107,11 +108,13 @@ export default function MainLayout() {
             <TabPanels p="">
               <TabPanel>
                 <InfiniteScroll
-                loader={<p>loading...</p>}
+                loader={<Flex justify="center" alignItems="center"> <LoadingOutlined /></Flex>}
                 className="w-[800px] mx-auto my-10"
                 fetchMore={() => setPage((prev) => prev + 1)}
                 hasMore={hasMore}
-                endMessage={<p>Hết Rồi! </p>}>
+                endMessage={<p>
+                 
+                </p>}>
 
                 
                 <SimpleGrid columns={5} spacing={5} minChildWidth='250px'>

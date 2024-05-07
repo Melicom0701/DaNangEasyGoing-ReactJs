@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { BiChat, BiLike,BiHeart, BiShare } from 'react-icons/bi';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-
+import React from 'react';
 
 /*
 {
@@ -29,21 +29,12 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
   },
 
 */
-const item = {
-    "id": "1",
-    "title": "json-server",
-    "location": "118 Lê Đình Lý, Quận Hải Châu, Đà Nẵng",
-    "author": "Linh Nguyen",
-    "author_avatar": "https://i.pinimg.com/280x280_RS/2f/74/37/2f74373760dd9a657517b19e635318d5.jpg",
-    "context": "Món ăn ở đây cực kì độc đáo",
-    "image": "https://images.foody.vn/res/g100001/1000000322/prof/s576x330/beauty-upload-api-file_8d66bc45-86f2-4dc0-9ce7-c94bac4f6e3b-200521104545.jpeg"
-}
+
 
 
 export default function Review(props) {
-    props = { item }
+    const item = props.item;
     return (
-        console.log(props),
 
         <Card maxW='650px' margin="0 0 20px 0">
             <CardHeader>
@@ -52,8 +43,8 @@ export default function Review(props) {
                         <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
 
                         <Box>
-                            <Heading size='sm'>{props.item.author}</Heading>
-                            <Text>{props.item.location}</Text>
+                            <Heading size='sm'>{item.author}</Heading>
+                            <Text>{item.location}</Text>
                         </Box>
                     </Flex>
                     <IconButton
@@ -66,12 +57,12 @@ export default function Review(props) {
             </CardHeader>
             <CardBody>
                 <Text>
-                    {props.item.context}
+                    {item.context}
                 </Text>
             </CardBody>
             <Image
                 objectFit='cover'
-                src={props.item.image}
+                src={item.image}
             />
 
             <CardFooter

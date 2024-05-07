@@ -20,20 +20,23 @@ import {
   faTag,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
+import { ChatIcon } from "@chakra-ui/icons";
 export default function DesCard({ item }) {
-  const _item = {
-    name: "Sun World Ba Na Hills tại Đà Nẵng",
-    location: "Hòa Phú, Hòa Vang, Đà Nẵng",
-    TimeStart: "8:00",
-    TimeEnd: "24:00",
-    image:
-      "https://ik.imagekit.io/tvlk/xpe-asset/AyJ40ZAo1DOyPyKLZ9c3RGQHTP2oT4ZXW+QmPVVkFQiXFSv42UaHGzSmaSzQ8DO5QIbWPZuF+VkYVRk6gh-Vg4ECbfuQRQ4pHjWJ5Rmbtkk=/2000908871772/Sun-World-Ba-Na-Hills-in-Da-Nang--ce8d864c-da07-4dc0-91db-f320fa9fbbeb.jpeg?_src=imagekit&tr=c-at_max,h-750,q-100,w-1000",
-    rate: 4.5,
-    priceStart: "500.000",
-    priceMax: "1.000.000",
-    x: 16.047079,
-    y: 108.20623,
-  };
+  // const _item = {
+  //   name: "Sun World Ba Na Hills tại Đà Nẵng",
+  //   location: "Hòa Phú, Hòa Vang, Đà Nẵng",
+  //   TimeStart: "8:00",
+  //   TimeEnd: "24:00",
+  //   image:
+  //     "https://ik.imagekit.io/tvlk/xpe-asset/AyJ40ZAo1DOyPyKLZ9c3RGQHTP2oT4ZXW+QmPVVkFQiXFSv42UaHGzSmaSzQ8DO5QIbWPZuF+VkYVRk6gh-Vg4ECbfuQRQ4pHjWJ5Rmbtkk=/2000908871772/Sun-World-Ba-Na-Hills-in-Da-Nang--ce8d864c-da07-4dc0-91db-f320fa9fbbeb.jpeg?_src=imagekit&tr=c-at_max,h-750,q-100,w-1000",
+  //   rate: 4.5,
+  //   priceStart: "500.000",
+  //   priceMax: "1.000.000",
+  //   x: 16.047079,
+  //   y: 108.20623,
+  // };
+  const _item = item;
+
   function isActive() {
     var d = new Date();
     var n = parseInt(d.getHours());
@@ -76,12 +79,10 @@ export default function DesCard({ item }) {
                 </i>
               </Text >
 
-            <br></br>
-            
-
+             
               
             {/* bigger size of Rate tag (antd) */}
-            <Rate allowHalf defaultValue={_item.rate}/>
+            <Rate allowHalf value={_item.rate}/>
               <Text>
                 <FontAwesomeIcon icon={faClock} />
                 <b>
@@ -98,7 +99,11 @@ export default function DesCard({ item }) {
                 <FontAwesomeIcon icon={faTag} />
                 {" " + _item.priceStart} - {_item.priceMax}
               </Text>
+              <Text fontSize='lg' as="i"  >
+                <ChatIcon/>   
+                {" "+_item.description}</Text>            
               <br />
+            
              
           </CardBody>
 
