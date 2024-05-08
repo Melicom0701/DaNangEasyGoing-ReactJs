@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer ,useMap,useMapEvents} from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
 import L from "leaflet"
+//get path
 //const position = [16.0736657, 108.1472941];
 const position = [16.067986, 108.212505]
 const icon = L.icon({
-    iconUrl : "./placeHolder.png",
+    iconUrl :   '/placeHolder.png',    
     iconSize :[38,38]
     });
 const icon2 = L.icon({
-    iconUrl : "./yrhyrh.png",
+    iconUrl : '/yrhyrh.png',
     iconSize :[38,38]
     });
 function ResetCenterView(props)
