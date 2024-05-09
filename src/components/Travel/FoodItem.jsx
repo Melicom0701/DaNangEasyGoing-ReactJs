@@ -1,17 +1,18 @@
 import { Card, CardBody, CardFooter, Heading, Image, Text, Divider, Box, Flex, Spacer} from "@chakra-ui/react";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-
-
+import { Link } from 'react-router-dom';
+import { Rate } from 'antd';
 
 export default function CardItem({item}) {
+    console.log(item);
     const TruncatedText = ( text, maxLength ) => {
         const truncatedText = text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
       
         return <div className="truncated-text">{truncatedText}</div>;
       };
-    console.log("vao roi "  + item.title)
     return (
         <>
+            <Link to={"/ShopReview/"+item.id}>
             <Card maxW="250px" h="320px" rounded="10px"
             _hover = {{boxShadow: "0 4px 12px 0 rgba(0,0,0,0.1)"}}
             >
@@ -27,12 +28,9 @@ export default function CardItem({item}) {
 
                 <CardBody class="commentor" h="75px" p="5px" >
                     <Flex justify="center" align="center">
-                    <Box w="70px" p="5px">
-                        {/* <Image src={item.TopComment.profilePicture} alt={item.TopComment.author} rounded="100%" w="100%" /> */}
-                    </Box>
+                    
                     <Box>
-                        {/* <Text fontSize="xs" as='b'>{item.TopComment.author}</Text> */}
-                        {/* <Text fontSize="xs" color="#9B9B9B" >{TruncatedText(item.TopComment.content,70)}</Text> */}
+                        <Rate disabled value={item.rating}> </Rate>
                     </Box>
                     </Flex>
                     
@@ -50,6 +48,7 @@ export default function CardItem({item}) {
                    
                 </CardFooter>
             </Card>
+            </Link>
 
         
         

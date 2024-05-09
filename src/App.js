@@ -5,7 +5,7 @@ import Navbar from  "./components/Navbar";
 import MainLayout from "./components/Travel/Travel";
 import ProductContainer from "./components/ProductContainer";
 import SearchBox from "./components/SearchBox";
-import Maps from "./components/Maps";
+import Maps from "./components/Maps/Maps";
 
 
 function App() {

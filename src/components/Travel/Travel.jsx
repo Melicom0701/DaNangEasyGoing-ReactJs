@@ -18,7 +18,7 @@ const destructuredItem =(item) =>
       location:item.location,
       image:item.image,
       price:item.averagePrice,
-      rating:item.rating,
+      rating:item.averageRating,
       description : item.description,
       
     }

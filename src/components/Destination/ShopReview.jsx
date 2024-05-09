@@ -6,6 +6,7 @@ import SideBar from "../SideBar/SideBar";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NotFound from "../NotFound/NotFound";
+import WriteReview from "./WriteReview";
 import axios from "axios";
 import {
   Text,
@@ -21,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import Search from "./Search";
 import Menu from "./Menu";
-import Maps from "../Maps";
+import Maps from "../Maps/Maps";
 // {
 //   name: "Sun World Ba Na Hills tại Đà Nẵng",
 //   location: "Hòa Phú, Hòa Vang, Đà Nẵng",
@@ -44,16 +45,18 @@ import Maps from "../Maps";
 //   "context": "Món ăn ở đây cực kì độc đáo",
 //   "image": "https://images.foody.vn/res/g100001/1000000322/prof/s576x330/beauty-upload-api-file_8d66bc45-86f2-4dc0-9ce7-c94bac4f6e3b-200521104545.jpeg"
 // }
-let Location= "";
 
 const destructuredReview = (item) => {
   const res = {
     id: item.id,
     author: item.User.name,
+    destinationId: item.destinationId,
     author_avatar: item.User.avatar,
     context: item.review,
     image: item.image,
-    location: Location,
+    rate: item.rating,
+    location: item.Destination.location,
+    shopName : item.Destination.name,
   };
   return res;
 };
@@ -97,7 +100,6 @@ const destructuredItem = (item) => {
     x: item.x,
     y: item.y,
   };
-  Location = item.location;
   return res;
 };
 
@@ -124,10 +126,18 @@ let cnt = 0;
 
 export default function ShopReview() {
   //get route params
+
   const { DestinationId } = useParams();
   const [Reviews, setReviews] = useState([{}]);
   const [Destination, setDestination] = useState({});
   const [isExist, setExist] = useState(true);
+  const [onPost, setonPost] = useState(false);
+  const openPost = () => {
+    setonPost(true);
+  };
+  const closePost = () => {
+    setonPost(false);
+  };
 
   useEffect(() => 
     {
@@ -143,7 +153,10 @@ export default function ShopReview() {
 
       fetchData();
 
-    },[])
+    },[onPost])
+
+
+  
     
 
 
@@ -204,6 +217,14 @@ export default function ShopReview() {
                   </Text>
                 </Flex>
                 <Menu />
+                <Button
+                  colorScheme="blue"
+                  width="250px"
+                  m="0 0 30px 0"
+                  onClick={openPost}
+                            >
+                  Viết Đánh Giá
+                </Button>
               </div>
             </GridItem>
             <GridItem colSpan={4}>
@@ -277,6 +298,7 @@ export default function ShopReview() {
           </GridItem>
         </div>
       </Grid>
+      
 
       {onMaps && (
         <div>
@@ -305,6 +327,36 @@ export default function ShopReview() {
           </div>
         </div>
       )}
+
+     {onPost && (
+        <div>
+          <div
+            style={{
+              backgroundColor: "rgb(0, 0, 0, 0.5)",
+              position: "fixed",
+              top: "0",
+              zIndex: "10",
+              height: "100vh",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={closePost}
+          >
+            <Box
+              w="660px"
+              h="600px"
+              rounded="lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <WriteReview Id={DestinationId} closePost={closePost} />
+            </Box>
+          </div>
+        </div>
+     )} 
+
     </div>
+    
   );
 }

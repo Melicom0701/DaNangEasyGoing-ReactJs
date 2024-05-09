@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Heading, Container, Box, Flex, Spacer, Stack, HStack, VStack, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import Navbar from  "../components/Navbar";
 import _Social from "../components/Social/_Social";
-import Maps from "../components/Maps";
+import Maps from "../components/Maps/Maps";
 function Social() {
  
   return (

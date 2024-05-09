@@ -1,7 +1,6 @@
 import { Card, CardBody, CardFooter, Heading, Image, Text, Divider, Box, Flex, Spacer} from "@chakra-ui/react";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-
-
+import { Link } from 'react-router-dom';
 
 export default function TravelItem({item}) {
     const TruncatedText = ( text, maxLength ) => {
@@ -9,9 +8,9 @@ export default function TravelItem({item}) {
       
         return <div className="truncated-text">{truncatedText}</div>;
       };
-    console.log("vao roi "  + item.title)
     return (
         <>
+            <Link to={"/ShopReview/"+item.id}>
             <Card maxW="250px" h="320px" rounded="10px"
             _hover = {{boxShadow: "0 4px 12px 0 rgba(0,0,0,0.1)"}}>
                 <Heading>
@@ -36,6 +35,7 @@ export default function TravelItem({item}) {
                    
                 </CardFooter>
             </Card>
+            </Link>
 
         
         

@@ -5,7 +5,7 @@ import { useLoaderData } from "react-router-dom"
 import { Input } from '@chakra-ui/react'
 import Post from "./Post";
 import SideBar from "../SideBar/SideBar";
-import Maps from "../Maps";
+import Maps from "../Maps/Maps";
 
 /*
 {
