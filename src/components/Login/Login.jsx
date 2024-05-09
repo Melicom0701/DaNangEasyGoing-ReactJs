@@ -19,6 +19,7 @@ import { FaUserAlt, FaLock } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -29,9 +30,19 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
+  const navigate = useNavigate();
+  const isLogin = localStorage.getItem('token');
+    useEffect(() => {
+        if (isLogin) {
+            navigate("/");
+
+
+        }
+    },[isLogin]);
   const SuscessNotify =(prompt)=>
   {
     toast.success(prompt);
+    navigate("/");
   }
   const ErrorNotify =(prompt)=>
   {
