@@ -107,7 +107,7 @@ export default function Search()
                 <InputLeftAddon>
                 <FaSearch/>
                 </InputLeftAddon>
-                <Input placeholder="Search" w="300px"  onBlur={FinishSearchHandle} onChange={SearchHandle}/>
+                <Input placeholder="Search"  onBlur={FinishSearchHandle} onChange={SearchHandle}/>
                 </InputGroup>
                 {onsearch && (
                     <Box  bg="white" boxShadow="xl" p="0px" borderRadius="lg"> 

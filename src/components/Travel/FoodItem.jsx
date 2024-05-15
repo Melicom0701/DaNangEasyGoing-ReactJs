@@ -2,7 +2,39 @@ import { Card, CardBody, CardFooter, Heading, Image, Text, Divider, Box, Flex, S
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Link } from 'react-router-dom';
 import { Rate } from 'antd';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const saveItem= async (id) => {
+    const API = process.env.REACT_APP_ENDPOINT+"destination/"+id+"/save";
+    const token = localStorage.getItem("token");
+    if (!token) {
+        toast.error("Vui lòng đăng nhập trước khi lưu");
+        return;
+    }
+const requestOptions = {
+    method: "POST",
+    headers: {
+        Authorization: `Bearer ${token}`,
+    },
+};
+await fetch(API, requestOptions)
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data);
+        if (data.message === "saved") {
+            toast.success("Đã Lưu");
+        } 
+        else {
+            toast.warn("Đã bỏ lưu");
+        }
+    })
+    .catch((err) => {
+        toast.error("Lưu thất bại");
+        console.log(err);
+    });
+
+}
 export default function CardItem({item}) {
     console.log(item);
     const TruncatedText = ( text, maxLength ) => {
@@ -11,11 +43,15 @@ export default function CardItem({item}) {
         return <div className="truncated-text">{truncatedText}</div>;
       };
     return (
-        <>
-            <Link to={"/ShopReview/"+item.id}>
+    
+        <div>
+            
+            
+           
             <Card maxW="250px" h="320px" rounded="10px"
             _hover = {{boxShadow: "0 4px 12px 0 rgba(0,0,0,0.1)"}}
             >
+                 <Link to={"/ShopReview/"+item.id}>
                 <Heading>
                     <Image src={item.image} alt={item.title} />
                 </Heading>
@@ -24,6 +60,7 @@ export default function CardItem({item}) {
                     <Text fontSize="xs" color="#9B9B9B" >{TruncatedText(item.location,35)}</Text>
                    
                 </CardBody>
+                </Link>
                 <Divider color="#dddddd" />
 
                 <CardBody class="commentor" h="75px" p="5px" >
@@ -42,17 +79,22 @@ export default function CardItem({item}) {
                     <Text color="#E02525">{item.price}đ
                      </Text>
                     <Spacer />
-                    <Text>
+                    <Text _hover = {{boxShadow: "0 4px 12px 0 rgba(0,0,0,0.1)"}} 
+                        onClick = {() => 
+                            saveItem(item.id)
+                        }
+                    >
                     <i class="fa fa-bookmark" aria-hidden="true" bg=""> </i> Lưu
                     </Text>
                    
                 </CardFooter>
             </Card>
-            </Link>
-
+            <ToastContainer />
+            
+            
         
         
-        </>
+        </div>
     )
 
 }

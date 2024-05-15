@@ -10,6 +10,7 @@ import Login from "./pages/login"
 import ShopReview from "./pages/ShopReview";
 import NewDestination from "./pages/newdestination";
 import NotFound from "./components/NotFound/NotFound";
+import EasyGoing from "./pages/EasyGoing";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -21,6 +22,7 @@ root.render(
           <Route path="/login" element={<Login />} />
           <Route path="/ShopReview/:DestinationId" element={<ShopReview />} />
           <Route path="/NewDestination" element={<NewDestination />} />
+          <Route path="/EasyGoing" element={<EasyGoing />} />
           <Route path="*" element={<NotFound />} />
 
         </Routes>

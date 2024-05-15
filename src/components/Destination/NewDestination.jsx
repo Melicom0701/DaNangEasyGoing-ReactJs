@@ -20,8 +20,53 @@ import { TimePicker } from "antd";
 import { Rate } from "antd";
 import Maps from "../Maps/getCoorMaps";
 import { FiCamera } from "react-icons/fi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NewDestination = () => {
+  const checkInput = () => {
+    if (!name) {
+      toast.error("Vui lòng nhập tên địa điểm");
+      return false;
+    }
+    if (!description) {
+      toast.error("Vui lòng nhập mô tả");
+      return false;
+    }
+    if (!location) {
+      toast.error("Vui lòng nhập địa chỉ");
+      return false;
+    }
+    if (!image) {
+      toast.error("Vui lòng chọn hình ảnh");
+      return false;
+    }
+    if (!startTime) {
+      toast.error("Vui lòng chọn thời gian bắt đầu");
+      return false;
+    }
+    if (!endTime) {
+      toast.error("Vui lòng chọn thời gian kết thúc");
+      return false;
+    }
+    if (!averageRating) {
+      toast.error("Vui lòng nhập đánh giá");
+      return false;
+    }
+    if (!averagePrice) {
+      toast.error("Vui lòng nhập giá trung bình");
+      return false;
+    }
+    if (!x || !y) {
+      toast.error("Vui lòng chọn tọa độ");
+      return false;
+    }
+    if (!category) {
+      toast.error("Vui lòng chọn loại hình sản phẩm");
+      return false;
+    }
+    return true;
+  };
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
@@ -37,7 +82,7 @@ const NewDestination = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [cate, setCate] = useState("food");
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const imageFile = e.target.files[0];
     setImage(imageFile);
     const imageUrl = URL.createObjectURL(imageFile);
@@ -50,43 +95,77 @@ const NewDestination = () => {
     setX(_x);
     setY(_y);
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const API = process.env.REACT_APP_ENDPOINT + "destination";
+  const uploadImage = async () => {
+    const API = process.env.REACT_APP_ENDPOINT + "blob/image";
+    const formData = new FormData();
+    formData.append("image", image);
     const requestOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-            name: name,
-            description: description,
-            location: location,
-            startTime: startTime,
-            image : imagePreview?imagePreview:"",
-            endTime: endTime,
-            averageRating: averageRating,
-            averagePrice: averagePrice,
-            x: x,
-            y: y,
-            category: category,
-        }),
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: formData,
     };
     fetch(API, requestOptions)
-        .then((response) => response)
-        .then((data) => {
-            console.log(data);
-        })
-        .catch((error) => console.log("error", error));
-
-
-    
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setImagePreview(data.url);
+      })
+      .catch((error) => console.log("error", error));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!checkInput()) return;
+    const API = process.env.REACT_APP_ENDPOINT + "blob/image";
+    const formData = new FormData();
+    formData.append("image", image);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: formData,
+    };
+    await fetch(API, requestOptions)
+      .then((response) => response.json())
+      .then(async (data) => {
+        let imageUrl = process.env.REACT_APP_ENDPOINT + data.path
+        setImagePreview(imageUrl);
+        const API = process.env.REACT_APP_ENDPOINT + "destination";
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({
+                name: name,
+                description: description,
+                location: location,
+                startTime: startTime,
+                image : imagePreview?imagePreview:"",
+                endTime: endTime,
+                averageRating: averageRating,
+                averagePrice: averagePrice,
+                x: x,
+                y: y,
+                category: category,
+            }),
+        };
+        await fetch(API, requestOptions)
+            .then((response) => response)
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => console.log("error", error));
+      })
+      .catch((error) => console.log("error", error));
   };
 
   return (
     <Box p={5}>
+      <ToastContainer />
       <Heading mb={5}>Địa Điểm Mới </Heading>
       <form onSubmit={handleSubmit}>
         <VStack spacing={4} align="stretch">

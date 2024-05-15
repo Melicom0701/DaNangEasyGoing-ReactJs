@@ -9,6 +9,7 @@ import TravelItem from "./TravelItem";
 import Booking from "./Booking";
 import SideBar from "../SideBar/SideBar";
 import InfiniteScroll from "./InfiniteScroll";
+import Search from "./Search";
 let maxItem = 10;
 const destructuredItem =(item) =>
   {
@@ -87,25 +88,28 @@ export default function MainLayout() {
         <GridItem  colSpan={1} rounded='10px' position ="fixed">
           <SideBar _active="Travel" />
         </GridItem> 
-
-       
        
         <GridItem colSpan={6} bg={Bgr} rounded='20px' margin="0 0 0 250px">
         
           <Tabs p="0 30px 0 30px">
-          <div style={{ backgroundColor: "white", position: "sticky", top: "0", zIndex: "1", height: "100px", width: "1400px" }}>
-        
-            <Input placeholder='Hôm nay ăn gì ...' bg='white'  position="sticky" top="20px" zIndex="999" w="1000px" />
-            <TabList position="sticky" top="60px" zIndex="999" >
+          <div style={{ backgroundColor: "white", position: "fixed", top: "0", zIndex: "1", height: "100px", width: "1500px" }}> 
+          </div> 
+            {/* <Input placeholder='Hôm nay ăn gì ...' bg='white'  position="sticky" top="20px" zIndex="999" w="1000px" /> */}
+            <div style={{position: "fixed", zIndex:3, width:"1210px"}} >
+            <Search  top="20px" />
+            </div>
+            <TabList position="sticky" top="60px" zIndex={1}>
               <Tab onClick={() => setBgr('White')}>Ẩm Thực</Tab>
               <Tab onClick={() => setBgr('White')}>Du Lịch</Tab>
               <Tab onClick={() => setBgr('White')}>Booking</Tab>
             </TabList>
-            </div>
             
+            <br/>
+            <br />
+            <br />
 
             <Divider />
-            <TabPanels p="">
+            <TabPanels >
               <TabPanel>
                 <InfiniteScroll
                 loader={<Flex justify="center" alignItems="center"> <LoadingOutlined /></Flex>}

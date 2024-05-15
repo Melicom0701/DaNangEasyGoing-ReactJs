@@ -4,9 +4,11 @@ import { Grid, GridItem, Spacer } from "@chakra-ui/react";
 import Review from "./Review";
 import SideBar from "../SideBar/SideBar";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NotFound from "../NotFound/NotFound";
 import WriteReview from "./WriteReview";
+import AddMenu from "./AddMenu";
 import axios from "axios";
 import {
   Text,
@@ -23,6 +25,8 @@ import {
 import Search from "./Search";
 import Menu from "./Menu";
 import Maps from "../Maps/Maps";
+import { jwtDecode } from "jwt-decode";
+
 // {
 //   name: "Sun World Ba Na Hills tại Đà Nẵng",
 //   location: "Hòa Phú, Hòa Vang, Đà Nẵng",
@@ -89,6 +93,7 @@ const destructuredItem = (item) => {
   const res = {
     id: item.id,
     description: item.description,
+    ownner: item.userId,
     name: item.name,
     location: item.location,
     TimeStart: item.startTime,
@@ -99,6 +104,7 @@ const destructuredItem = (item) => {
     priceMax: item.averagePrice,
     x: item.x,
     y: item.y,
+
   };
   return res;
 };
@@ -132,12 +138,34 @@ export default function ShopReview() {
   const [Destination, setDestination] = useState({});
   const [isExist, setExist] = useState(true);
   const [onPost, setonPost] = useState(false);
+  const [isOwner, setOwner] = useState(false);
+  const [onMenu, setOnMenu] = useState(false);
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  let userId;
+  if (token)
+  userId = jwtDecode(token).id;
+
+  const openMenu = () => {
+    setOnMenu(true);
+  }
+  const closeMenu = () => {
+    setOnMenu(false);
+  }
+
+
+
   const openPost = () => {
     setonPost(true);
   };
   const closePost = () => {
     setonPost(false);
   };
+  useEffect(() => {
+    if (!userId) {
+      navigate("/login")
+    }
+  });
 
   useEffect(() => 
     {
@@ -148,7 +176,11 @@ export default function ShopReview() {
         const _isExist = await checkAPI(DestinationId);
         setReviews(_reviews);
         setDestination(_destination);
+        
         setExist(_isExist);
+        if (_destination.ownner === userId) {
+          setOwner(true);
+        }
       }
 
       fetchData();
@@ -216,7 +248,8 @@ export default function ShopReview() {
                     Menu{" "}
                   </Text>
                 </Flex>
-                <Menu />
+                
+               
                 <Button
                   colorScheme="blue"
                   width="250px"
@@ -225,6 +258,35 @@ export default function ShopReview() {
                             >
                   Viết Đánh Giá
                 </Button>
+                <Button
+                  colorScheme="blue"
+                  width="250px"
+                  m="0 0 30px 0"
+                  onClick={openMaps}
+                >
+                  Định Vị
+                </Button>
+
+                
+                <Button colorScheme="red" w="150px">
+                  {isOwner ? "Chỉnh Sửa" : "Báo Cáo"}
+                </Button>
+                {
+                  isOwner && (
+                    <>
+                    <Button colorScheme="red" m="10px" w="50px">
+                      Xóa
+                    </Button>
+                    <Button colorScheme="green" onClick={openMenu}  >
+                    Thêm Menu 
+                    </Button>
+
+                    </>
+                     
+                    
+                  )
+
+                }
               </div>
             </GridItem>
             <GridItem colSpan={4}>
@@ -265,20 +327,14 @@ export default function ShopReview() {
                   top: "0",
                   zIndex: "1",
                   height: "50px",
-                  width: "300px",
+                  width: "380px",
                 }}
               >
                 <Box height="80px"></Box>
-                <Button
-                  colorScheme="blue"
-                  width="300px"
-                  m="0 0 30px 0"
-                  onClick={openMaps}
-                >
-                  Định Vị
-                </Button>
-
                 <Search />
+                <br />
+                <Menu  Id ={DestinationId} onMenu />
+               
               </div>
             </GridItem>
           </Grid>
@@ -293,8 +349,9 @@ export default function ShopReview() {
             width: "100%",
           }}
         >
-          <GridItem w="100%" p="px 0 0 0">
-            {/* <Search /> */}
+          <GridItem w="100%" p="300px 0 0 0">
+            
+          
           </GridItem>
         </div>
       </Grid>
@@ -355,6 +412,36 @@ export default function ShopReview() {
           </div>
         </div>
      )} 
+
+     {onMenu && (
+        <div>
+          <div
+            style={{
+              backgroundColor: "rgb(0, 0, 0, 0.5)",
+              position: "fixed",
+              top: "0",
+              zIndex: "10",
+              height: "100vh",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={closeMenu}
+          >
+            <Box
+              w="660px"
+              h="600px"
+              rounded="lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <AddMenu Id={DestinationId} closeMenu={closeMenu} userId={userId} />
+            </Box>
+          </div>
+        </div>
+     )
+
+     }
 
     </div>
     
