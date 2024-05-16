@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, LayersControl, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
-import 'leaflet-routing-machine';
-import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import Routing from './Routing';
 import L from "leaflet";
 
@@ -79,7 +77,7 @@ export default function EasyGoingMap({ coordinates, waypoints, selectPosition, s
         <MapContainer 
             center={locationSelection} 
             zoom={13} 
-            style={{ width: '100%', height: '100%', borderRadius: "30px" }} 
+            style={{ width: '100%', height: '100%', borderRadius: "20px" }} 
             whenCreated={setMap}
         >
             <LayersControl position="bottomright">
@@ -100,7 +98,7 @@ export default function EasyGoingMap({ coordinates, waypoints, selectPosition, s
             ))}
             <ResetCenterView selectPosition={selectPosition} setLocate={setLocate} />
             <LocationMarker setLocate={setLocate} />
-            {waypoints.length > 0 && <Routing key={JSON.stringify(waypoints)} waypoints={waypoints} />}
+            {waypoints.length > 1 && <Routing key={JSON.stringify(waypoints)} waypoints={waypoints} />}
         </MapContainer>
     );
 }

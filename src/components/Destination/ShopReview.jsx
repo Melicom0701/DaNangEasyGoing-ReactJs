@@ -208,11 +208,13 @@ export default function ShopReview() {
 
   return (
     <div
-      style={{
-        backgroundColor: "rgb(240,242,245)",
-      }}
+    style={{
+      backgroundColor: "rgb(240,242,245)",
+      minHeight: "100vh",
+      padding:"16px",
+    }}
     >
-      <Grid templateColumns="repeat(6, 1fr)" gap={2}>
+      <Grid templateColumns="repeat(8, 1fr)" gap={2}>
         <div
           style={{
             backgroundColor: "rgb(240,242,245)",
@@ -224,15 +226,15 @@ export default function ShopReview() {
           }}
         >
           <GridItem h="10">
-            <SideBar />
+            <SideBar _active="Review"/>
           </GridItem>
         </div>
 
-        <GridItem colSpan={4}>
+        <GridItem colSpan={6} >
           <DesCard item={Destination} />
 
-          <Grid templateColumns="repeat(6,1fr)" gap={2}>
-            <GridItem colSpan={1}>
+          <Grid templateColumns="repeat(8,1fr)" gap={2}>
+            <GridItem colSpan={1} p=" 0 16px 0 0 ">
               <div
                 style={{
                   backgroundColor: "rgb(240,242,245)",
@@ -242,17 +244,12 @@ export default function ShopReview() {
                   height: "50px",
                 }}
               >
-                <Flex h="78px" align="center" justify="center">
-                  <Text color="red" as="b">
-                    {" "}
-                    Menu{" "}
-                  </Text>
-                </Flex>
-                
                
+                
+               <Box height="80px"></Box>
                 <Button
                   colorScheme="blue"
-                  width="250px"
+                  width="200px"
                   m="0 0 30px 0"
                   onClick={openPost}
                             >
@@ -260,17 +257,14 @@ export default function ShopReview() {
                 </Button>
                 <Button
                   colorScheme="blue"
-                  width="250px"
+                  width="200px"
                   m="0 0 30px 0"
                   onClick={openMaps}
                 >
                   Định Vị
                 </Button>
 
-                
-                <Button colorScheme="red" w="150px">
-                  {isOwner ? "Chỉnh Sửa" : "Báo Cáo"}
-                </Button>
+               
                 {
                   isOwner && (
                     <>
@@ -289,7 +283,7 @@ export default function ShopReview() {
                 }
               </div>
             </GridItem>
-            <GridItem colSpan={4}>
+            <GridItem colSpan={6}>
               <Tabs>
                 <div
                   style={{
@@ -319,7 +313,7 @@ export default function ShopReview() {
               </Tabs>
             </GridItem>
 
-            <GridItem colSpan={1}>
+            <GridItem colSpan={1} p="0 0 0 5px">
               <div
                 style={{
                   backgroundColor: "rgb(240,242,245)",
@@ -327,11 +321,15 @@ export default function ShopReview() {
                   top: "0",
                   zIndex: "1",
                   height: "50px",
-                  width: "380px",
+                  width: "360px",
                 }}
               >
-                <Box height="80px"></Box>
-                <Search />
+                <Flex h="58px" align="center" justify="center">
+                  <Text color="red" as="b">
+                    {" "}
+                    Menu{" "}
+                  </Text>
+                </Flex>
                 <br />
                 <Menu  Id ={DestinationId} onMenu />
                

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Flex,
@@ -7,15 +7,38 @@ import {
   Divider,
   IconButton,
   Spacer,
+  Image,
   Button,
 } from "@chakra-ui/react";
 import { FiMenu, FiHome } from "react-icons/fi";
 import NavItem from "./NavItem";
 import { useNavigate } from "react-router-dom";
 
-const SideBar = (props) => {
+const SideBar =  (props) => {
   const navigate = useNavigate();
   const [navSize, setNavSize] = React.useState("large");
+  const token = localStorage.getItem("token");
+  const [user, setUser] = React.useState(null);
+  useEffect(() => {
+  if (token) {
+    const API = process.env.REACT_APP_ENDPOINT + "user/me";
+    const requestOption = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    fetch(API, requestOption)
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }} , [token]);
+
   return (
     <Flex
       direction="column"
@@ -66,22 +89,24 @@ const SideBar = (props) => {
           />
           <NavItem
             navSize={navSize}
-            title="Review"
+            title="Quick Review"
             icon={FiHome}
             active={props._active == "Review" ? 1 : 0}
-            link="/Review"
+            // link="/Review"
           />
           <NavItem
             navSize={navSize}
             title="Easy Going"
             icon={FiHome}
-            active={props._active == "EasyGoing" ? 1 : 0}
+            active={props._active == "easygoing" ? 1 : 0}
+            link="/EasyGoing"
           />
           <NavItem
             navSize={navSize}
             title="Saved"
             icon={FiHome}
-            active={props._active == "YourTrip" ? 1 : 0}
+            active={props._active == "saved" ? 1 : 0}
+            link ="/Saved"
           />
        
         </Flex>
@@ -106,7 +131,35 @@ const SideBar = (props) => {
             Địa Điểm Mới
         </Button>
 
+
+
         </Flex>
+      </Flex>
+      <Flex direction="column">
+        <Divider />
+        {user && (
+          <>
+          <Flex alignItems="center" p="5px 5px 0 20px" >
+            <Image src={user.avatar} h="60px" w="60px" borderRadius="100%" alt="user" m="0 20px 0 0" />
+            <Text color="blue" fontSize="15px" >{user.name}</Text>
+          </Flex>
+          <Button m="20px 0 20px 20px"
+          onClick={()=>{
+            localStorage.removeItem("token");
+            window.location.reload();
+          }}
+          > Đăng Xuất </Button>
+          </>
+        )}
+        {user == null && (
+          <Button m="20px 0 20px 20px" onClick={()=>{
+            navigate("/login");
+          }}> Đăng Nhập </Button>
+        
+        )}
+        <Text fontSize="xs" color="gray.400" p="20px">
+          © 2021 Travel
+        </Text>
       </Flex>
     </Flex>
   );

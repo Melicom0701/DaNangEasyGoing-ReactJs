@@ -72,6 +72,7 @@ export default function Menu({ Id, onMenu }) {
         p="1px"
         borderRadius="lg"
         overflowY="auto"
+        padding="0px 25px 15px 20px"
         maxHeight="400px"
         css={{
           "&::-webkit-scrollbar": {
@@ -96,12 +97,12 @@ export default function Menu({ Id, onMenu }) {
                   width="60px"
                   height="60px"
                   p="0 10px 0 0 "
-                  borderRadius="5px"
+                  borderRadius="100%"
                 />
-                <Flex align="center" p="3px">
+                <Flex align="center" p="10px">
                   <Flex direction="column">
                     <Tooltip label={item.name}>
-                      <Text>{TruncatedText(item.name, 36)}</Text>
+                      <Text>{TruncatedText(item.name, 60)}</Text>
                     </Tooltip>
                     <Tooltip label={item.shopName + " - " + item.location}>
                       {/* <Text fontSize="sm" color="gray">

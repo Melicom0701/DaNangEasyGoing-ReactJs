@@ -145,7 +145,7 @@ const NewPost = ({ Id, closePost }) => {
         <Rate allowHalf value={rate} onChange={setRate} />
         <Divider></Divider>
         {imagePreview && (
-          <Image src={imagePreview} alt="Selected Image" mt={4} />
+          <Image src={imagePreview} alt="Selected Image" mt={4} width="300px" />
         )}
         <Flex align="center" justify="space-between">
           <input

@@ -104,16 +104,19 @@ const Login = () => {
         mb="2"
         justifyContent="center"
         alignItems="center"
+
       >
         <Avatar bg="teal.500" />
-        <Heading color="teal.400">Welcome</Heading>
-        <Box minW={{ base: "90%", md: "468px" }}>
+        {/* <Heading color="teal.400">Welcome</Heading> */}
+        <Box minW={{ base: "90%", md: "468px" }} >
           <form>
             <Stack
               spacing={4}
               p="1rem"
               backgroundColor="whiteAlpha.900"
               boxShadow="md"
+              borderRadius="30px"
+
             >
               <FormControl>
                 <InputGroup>
@@ -121,7 +124,7 @@ const Login = () => {
                     pointerEvents="none"
                     children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input type="text" placeholder="Email hoặc tên đăng nhập"
+                  <Input type="text"         borderRadius="10px" placeholder="Email hoặc tên đăng nhập"
                   onChange={handleUsernameChange}
                   />
                 </InputGroup>
@@ -134,6 +137,7 @@ const Login = () => {
                     children={<CFaLock color="gray.300" />}
                   />
                   <Input
+                    borderRadius="10px"
                     type={showPassword ? "text" : "password"}
                     placeholder="Mật Khẩu"
                     onChange={handlePasswordChange}
@@ -149,12 +153,13 @@ const Login = () => {
                 </FormHelperText>
               </FormControl>
               <Button
-                borderRadius={0}
+                borderRadius={30}
                 type="submit"
                 variant="solid"
                 colorScheme="teal"
                 width="full"
                 onClick={_login}
+                
               >
                 Đăng Nhập
               </Button>

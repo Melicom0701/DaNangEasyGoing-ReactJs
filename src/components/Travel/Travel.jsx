@@ -13,12 +13,14 @@ import Search from "./Search";
 let maxItem = 10;
 const destructuredItem =(item) =>
   {
+    const _price = item.averagePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
     const res = {
       id:item.id,
       title:item.name,
       location:item.location,
       image:item.image,
-      price:item.averagePrice,
+      price: _price,
       rating:item.averageRating,
       description : item.description,
       
