@@ -68,12 +68,12 @@ export default function Menu({ Id, onMenu }) {
     <>
       <Box
         bg="white"
-        boxShadow="xl"
+        // boxShadow="xl"
         p="1px"
         borderRadius="lg"
         overflowY="auto"
         padding="0px 25px 15px 20px"
-        maxHeight="400px"
+        maxHeight="700px"
         css={{
           "&::-webkit-scrollbar": {
             width: "0px", // hide scrollbar in Chrome, Safari, and Opera

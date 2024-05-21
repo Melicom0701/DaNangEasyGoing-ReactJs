@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
-import Social from "./pages/social";
 import Travel from "./pages/travel";
 import { ChakraProvider } from "@chakra-ui/react";
 import { tasksLoader } from "./components/Travel/Travel";
@@ -19,7 +18,6 @@ root.render(
       <ChakraProvider>
         <Routes>
           <Route path="/" element={<Travel />} />
-          <Route path="/social" element={<Social />} />
           <Route path="/login" element={<Login />} />
           <Route path="/ShopReview/:DestinationId" element={<ShopReview />} />
           <Route path="/NewDestination" element={<NewDestination />} />

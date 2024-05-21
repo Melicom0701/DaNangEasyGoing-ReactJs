@@ -30,14 +30,17 @@ const EasyGoing = () => {
     return (
         <>
 
-        <Flex>
+        <Flex
+        backgroundColor="#e2e8f0"
+
+        >
 
             <Box position="fixed" p="20px">
             <SideBar _active="saved" />
             </Box>
             <Box width="280px"> 
             </Box>
-            <Box p="16px">
+            <Box p="16px" backgroundColor="white" m="30px" borderRadius="30px">
 
                 <Travel />
             </Box>

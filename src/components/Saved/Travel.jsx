@@ -79,7 +79,6 @@ import {
     return (
       <>
         <Box className="wrapper">
-          <Box className="bg-image"></Box>
           <Box className="bg-outer">
             <Grid
               templateRows='1fr'
@@ -87,6 +86,8 @@ import {
               gap={4}
               p={4}
               className="GridFrame"
+
+
             >
               <GridItem colSpan={12} rowSpan={1}>
                 <Flex
@@ -94,9 +95,7 @@ import {
                   alignItems="center"
                   className="header"
                 >
-                  <Heading as="h1" size="2xl" color="white">
-                    Food & Drink
-                  </Heading>
+                 
                 </Flex>
               </GridItem>
               <GridItem colSpan={12} rowSpan={1}>
@@ -104,6 +103,7 @@ import {
                   variant="soft-rounded"
                   colorScheme="teal"
                   className="tabs"
+                  
                 >
                   <TabList>
                     <Tab>Đã Lưu</Tab>

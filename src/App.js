@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Heading, Container, Box, Flex, Spacer, Stack, HStack, VStack, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
-import Navbar from  "./components/Navbar";
 import MainLayout from "./components/Travel/Travel";
-import ProductContainer from "./components/ProductContainer";
-import SearchBox from "./components/SearchBox";
 import Maps from "./components/Maps/Maps";
 
 
@@ -31,7 +28,6 @@ function App() {
           <Maps selectPosition={selectPosition}/>
         </div>
         <div style={{border: '2px solid red',width:"50vw"}}>
-          <SearchBox selectPosition={selectPosition} setSelectPosition={setSelectPosition}/>
         </div>
       </div>
 

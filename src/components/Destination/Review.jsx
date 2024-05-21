@@ -100,7 +100,7 @@ export default function Review(props) {
 
     return (
 
-        <Card maxW='650px' margin="0 0 20px 0">
+        <Card maxW='650px' margin="0 0 20px 0" backgroundColor="white" boxShadow= "30px" >
             <CardHeader p="20px 20px 0 20px">
                 <Flex spacing='4'>
                     <Flex flex='1' gap='4'  flexWrap='wrap'>

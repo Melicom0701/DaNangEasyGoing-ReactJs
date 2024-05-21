@@ -73,7 +73,7 @@ export default function MainLayout() {
 
 
   return (
-    <>
+    <div >
     <div class="wrapper">
     <div class="bg-image">
 
@@ -83,29 +83,36 @@ export default function MainLayout() {
         templateRows='1fr'
         templateColumns='repeat(6, 1fr)'
         gap={4}
+        minHeight="100vh"
         p={4}
         padding='20px'
         class="GridFrame"
+        backgroundColor="#e2e8f0"
+        
       >
-        <GridItem  colSpan={1} rounded='10px' position ="fixed">
+        <GridItem  colSpan={1} rounded='10px' position ="fixed" margin="0 30px 30px 0" >
           <SideBar _active="Travel" />
         </GridItem> 
        
-        <GridItem colSpan={6} bg={Bgr} rounded='20px' margin="0 0 0 250px">
+        <GridItem colSpan={6} bg={Bgr} rounded='20px'  margin="0 0 0 280px" p="15px">
         
-          <Tabs p="0 30px 0 30px">
-          <div style={{ backgroundColor: "white", position: "fixed", top: "0", zIndex: "1", height: "100px", width: "1500px" }}> 
+          <Tabs p="0 30px 0 30px"  >
+          {/* <div style={{ position: "fixed", top: "0", zIndex: "1", height: "10px", width: "1500px" }}> 
           </div> 
+          <div style={{ position: "fixed", top: "0", zIndex: "1", height: "90px", width: "1500px" }}> 
+          </div>  */}
+            
+            <br />
             {/* <Input placeholder='Hôm nay ăn gì ...' bg='white'  position="sticky" top="20px" zIndex="999" w="1000px" /> */}
-            <div style={{position: "fixed", zIndex:3, width:"1210px"}} >
-            <Search  top="20px" />
+            <div style={{  width:"1210px"}} >
+            <Search  />
             </div>
-            <TabList position="sticky" top="60px" zIndex={1}>
+            <TabList top="60px" >
               <Tab onClick={() => setBgr('White')}>Ẩm Thực</Tab>
               <Tab onClick={() => setBgr('White')}>Du Lịch</Tab>
               <Tab onClick={() => setBgr('White')}>Booking</Tab>
             </TabList>
-            
+    
             <br/>
             <br />
             <br />
@@ -153,7 +160,7 @@ export default function MainLayout() {
       </Grid>
     </div>
     </div>
-    </>
+    </div>
     
   );
 }

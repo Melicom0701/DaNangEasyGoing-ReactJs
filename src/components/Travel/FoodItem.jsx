@@ -65,9 +65,11 @@ export default function CardItem({ item }) {
       >
         <Link to={"/ShopReview/" + item.id}>
           <Heading>
-            <Image src={item.image} alt={item.title} />
+            <Image src={item.image} alt={item.title} borderRadius="10px 10px 0 0 " />
           </Heading>
-          <CardBody ml="10px" p="7px">
+          <CardBody ml="10px" p="7px"
+            
+          >
             <Text fontSize="1xl" as="b">
               {item.title}
             </Text>

@@ -230,14 +230,19 @@ export default function ShopReview() {
           </GridItem>
         </div>
 
-        <GridItem colSpan={6} >
+        <GridItem colSpan={7} >
           <DesCard item={Destination} />
 
-          <Grid templateColumns="repeat(8,1fr)" gap={2}>
+          <Grid templateColumns="repeat(8,1fr)" gap={2}
+            minHeight="100vh"
+            backgroundColor= "white"
+            m="10px 0 0 0 "
+            borderRadius="30px"
+            p="30px"
+            >
             <GridItem colSpan={1} p=" 0 16px 0 0 ">
               <div
                 style={{
-                  backgroundColor: "rgb(240,242,245)",
                   position: "sticky",
                   top: "0",
                   zIndex: "1",
@@ -287,8 +292,8 @@ export default function ShopReview() {
               <Tabs>
                 <div
                   style={{
-                    backgroundColor: "rgb(240,242,245)",
-                    position: "sticky",
+                   
+                   
                     top: "0",
                     zIndex: "1",
                     height: "50px",
@@ -316,7 +321,7 @@ export default function ShopReview() {
             <GridItem colSpan={1} p="0 0 0 5px">
               <div
                 style={{
-                  backgroundColor: "rgb(240,242,245)",
+                  
                   position: "sticky",
                   top: "0",
                   zIndex: "1",
@@ -347,7 +352,7 @@ export default function ShopReview() {
             width: "100%",
           }}
         >
-          <GridItem w="100%" p="300px 0 0 0">
+          <GridItem w="100%" >
             
           
           </GridItem>

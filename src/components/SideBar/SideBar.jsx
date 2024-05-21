@@ -113,7 +113,7 @@ const SideBar =  (props) => {
       
 
       </Flex>
-      <Flex p="5%" flexDir="column" w="100%" alignItems="flex-start" mb={4}>
+      <Flex p="5%" flexDir="column" w="100%" alignItems="center" mb={4}>
      
         <Divider display={navSize == "small" ? "none" : "flex"} />
         
