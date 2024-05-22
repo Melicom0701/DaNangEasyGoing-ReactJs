@@ -9,13 +9,24 @@ import {
   Tooltip,
   Tag,
   TagLabel,
+  HStack,
+  Button,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  Heading,
+  Checkbox,
+  VStack,
+  IconButton,
   Link,
   TagCloseButton,
   InputRightAddon,
 } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
+import { Rate } from "antd";
 
 const dataFilter = (data) => {
   const _price = data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -89,11 +100,33 @@ const debounce = (func, delay) => {
   };
 };
 
-export default function Search() {
+export default function Search({changeFoodItems}) {
   const [onsearch, setonsearch] = useState(false);
   const [searchResult, setsearchResult] = useState([]);
   const [searchText, setsearchText] = useState("");
   const [categories, setCategories] = useState([]);
+  const [priceRange, setPriceRange] = useState(0);
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [selectedDistricts, setSelectedDistricts] = useState([]);
+  const districts = [
+    "Quận Thanh Khê",
+    "Quận Liên Chiểu",
+    "Quận Ngũ Hành Sơn",
+    "Quận Hải Châu",
+    "Quận Sơn Trà",
+    "Quận Cẩm Lệ",
+    "Hòa Vang",
+    "Hoàng Sa",
+  ];
+  const handleDistrictChange = (district) => {
+    setSelectedDistricts((prev) =>
+      prev.includes(district)
+        ? prev.filter((d) => d !== district)
+        : [...prev, district]
+    );
+  };
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -115,7 +148,7 @@ export default function Search() {
   const debouncedSearch = useCallback(
     debounce((text) => {
       getSearchResult(text).then((data) => {
-        //clear data 
+        //clear data
         setsearchResult([]);
         setsearchResult(data.map(dataFilter));
       });
@@ -124,16 +157,27 @@ export default function Search() {
           setsearchResult(data.map(dataFilterC));
         });
       }
-    }, 500), 
+    }, 500),
     [categories]
   );
 
   const handleTextChange = (e) => {
     setonsearch(true);
     setsearchText(e.target.value);
+    if (!isFilterVisible)
     debouncedSearch(e.target.value);
   };
 
+  const handleClear = () => {
+    setSelectedDistricts([]);
+    setCategories([]);
+    setPriceRange([0, 100]);
+    setRating(0);
+    setsearchText("");
+  };
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+  };
   const handleAddCategory = (e) => {
     if (e.key === "Enter" && searchText) {
       setCategories([searchText, ...categories]);
@@ -143,6 +187,63 @@ export default function Search() {
       setsearchText("");
       e.preventDefault(); // Prevent form submit
     }
+  };
+  const destructuredItem =(item) =>
+    {
+      const _price = item.averagePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  
+      const res = {
+        id:item.id,
+        title:item.name,
+        location:item.location,
+        image:item.image,
+        price: _price,
+        rating:item.averageRating,
+        description : item.description,
+        
+      }
+      return res;
+  
+    }
+  const getFoodItems = async (limit=0) => {
+    let resData = [];
+    //fetch 
+    //localhost:8000/search/filterSearch?
+    //e = localtion
+        //p = price 
+        //s = star
+    let e,p,s,t;
+    if (selectedDistricts.length > 0) 
+    e = selectedDistricts.join(",");
+    else e = "";
+    if (priceRange!=0)
+    p = parseFloat(priceRange*1000);
+    else p = 1000000;
+    s = parseFloat(rating);
+
+    t = searchText;
+    if (!t) t = "";
+
+    const API = process.env.REACT_APP_ENDPOINT+'search/filterSearch?e='+e+'&p='+p+'&s='+s + '&t='+t;
+    // const API = "";
+    await fetch(API)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+      resData = data.map((item) => destructuredItem(item));
+      return resData;
+    }
+    )
+    .catch(err => console.log(err));
+
+    return resData;
+  }
+  const handleSearch = async () => {
+    //get data
+    getFoodItems().then((data) => {
+      changeFoodItems(data);
+    })
+
   };
 
   const handleRemoveCategory = (index) => {
@@ -174,19 +275,86 @@ export default function Search() {
                 {categories.map((category, index) => (
                   <Tag size="lg" key={index} borderRadius="full" m={1}>
                     <TagLabel>{category}</TagLabel>
-                    <TagCloseButton onClick={() => handleRemoveCategory(index)} />
+                    <TagCloseButton
+                      onClick={() => handleRemoveCategory(index)}
+                    />
                   </Tag>
                 ))}
               </Flex>
             </InputRightAddon>
           )}
         </InputGroup>
+        {isFilterVisible && (
+          <div>
+            <Box mt={4}>
+              <VStack align="start">
+                <Heading size="sm">Khu vực</Heading>
+                {districts.map((district) => (
+                  <Checkbox
+                    key={district}
+                    isChecked={selectedDistricts.includes(district)}
+                    onChange={() => handleDistrictChange(district)}
+                  >
+                    {district}
+                  </Checkbox>
+                ))}
+              </VStack>
+            </Box>
+            <Box mt={4}>
+              <VStack align="start">
+                <Heading size="sm">Giá tiền (VNĐ)</Heading>
+                <Slider
+                  aria-label="price-range-slider"
+                  defaultValue={[0, 100]}
+                  min={0}
+                  max={1000}
+                  step={1}
+                  onChangeEnd={(val) => setPriceRange(val)}
+                >
+                  <SliderTrack>
+                    <SliderFilledTrack />
+                  </SliderTrack>
+                  <SliderThumb boxSize={6} index={0} />
+                  <SliderThumb boxSize={6} index={1} />
+                </Slider>
+                <Text>{`Từ 0k đến ${priceRange}k`}</Text>
+              </VStack>
+            </Box>
+
+            <Box mt={4}>
+              <VStack align="start">
+                <Heading size="sm">Xếp loại (số sao)</Heading>
+
+                <Rate value={rating} onChange={setRating} allowHalf></Rate>
+              </VStack>
+            </Box>
+          </div>
+        )}
+        <HStack mt={4}>
+
+          <Button onClick={handleClear}>Xóa bộ lọc</Button>
+          <Button
+            onClick={() => setIsFilterVisible(!isFilterVisible)}
+            variant="outline"
+          >
+            {isFilterVisible ? "Tắt bộ lọc" : "Hiển thị bộ lọc"}
+          </Button>
+          <Button
+            colorScheme="blue"
+            onClick={handleSearch}
+          >
+            Tìm kiếm
+          </Button>
+        </HStack>
+
         {onsearch && (
           <Box bg="white" boxShadow="xl" p="5px" borderRadius="lg">
             {searchResult.map((item) => {
               return (
                 <Box
-                  onMouseDown={() => navigate("/ShopReview/" + item.destinationId)}
+                  onMouseDown={() =>
+                    navigate("/ShopReview/" + item.destinationId)
+                  }
                 >
                   <Flex justify="space-between">
                     <Flex padding="5px">
@@ -209,7 +377,12 @@ export default function Search() {
                         </Tooltip>
                         <Flex wrap="wrap">
                           {item.categories.map((category, index) => (
-                            <Tag size="lg" key={index} borderRadius="full" m={1}>
+                            <Tag
+                              size="lg"
+                              key={index}
+                              borderRadius="full"
+                              m={1}
+                            >
                               <TagLabel>{category}</TagLabel>
                             </Tag>
                           ))}

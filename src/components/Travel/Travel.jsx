@@ -43,6 +43,8 @@ const getFoodItems = async (limit=0) => {
   .catch(err => console.log(err));
   return resData;
 }
+
+
 export default function MainLayout() {
   
   const [FoodItems, setFoodItems] = useState([]);
@@ -51,6 +53,14 @@ export default function MainLayout() {
   const [Page, setPage] = useState(0);
   const [Bgr, setBgr] = useState("WHITE")
   const [hasMore, setHasMore] = useState(true);
+
+  const changeFoodItems = async (data) => {
+    setHasMore(false);
+    setFoodItems(data);
+
+  };
+
+
   useEffect(() => {
     console.log("x")
     getFoodItems(Page).then((data) => {
@@ -105,7 +115,7 @@ export default function MainLayout() {
             <br />
             {/* <Input placeholder='Hôm nay ăn gì ...' bg='white'  position="sticky" top="20px" zIndex="999" w="1000px" /> */}
             <div style={{  width:"1210px"}} >
-            <Search  />
+            <Search changeFoodItems = {changeFoodItems}  />
             </div>
             <TabList top="60px" >
               <Tab onClick={() => setBgr('White')}>Ẩm Thực</Tab>
@@ -130,7 +140,7 @@ export default function MainLayout() {
                 </p>}>
 
                 
-                <SimpleGrid columns={5} spacing={5} minChildWidth='250px'>
+                <SimpleGrid columns={5} spacing={5}  >
                   
                   {FoodItems.map((item) => (
                     <FoodItem key={item.id} item={item} />
