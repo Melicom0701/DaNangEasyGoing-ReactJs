@@ -5,21 +5,6 @@ import Travel from './Travel'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SideBar from '../SideBar/SideBar';
-const getItems = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-        return [];
-    }
-    
-
-
-    const response = await fetch(process.env.REACT_APP_ENDPOINT + "destination/saved");
-    const data = await response.json();
-    console.log(data);
-    return data;
-
-}
-
 
 
 
@@ -32,6 +17,7 @@ const EasyGoing = () => {
 
         <Flex
         backgroundColor="#e2e8f0"
+        height="100vh"
 
         >
 

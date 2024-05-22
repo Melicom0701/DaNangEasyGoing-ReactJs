@@ -84,10 +84,9 @@ import {
               templateRows='1fr'
               templateColumns='repeat(12, 1fr)'
               gap={4}
-              p={4}
+              p={20}
+              
               className="GridFrame"
-
-
             >
               <GridItem colSpan={12} rowSpan={1}>
                 <Flex
