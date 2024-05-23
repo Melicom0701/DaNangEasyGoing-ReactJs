@@ -17,7 +17,7 @@ const EasyGoing = () => {
 
         <Flex
         backgroundColor="#e2e8f0"
-        height="100vh"
+        minHeight="100vh"
 
         >
 
