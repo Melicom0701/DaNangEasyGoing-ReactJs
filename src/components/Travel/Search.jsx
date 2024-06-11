@@ -57,6 +57,20 @@ const dataFilterC = (data) => {
     location: data.Destination.location,
   };
 };
+const dataFilterA = (data) => {
+  const _price = data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+  return {
+    name: data.name,
+    image: data.image,
+    price: _price,
+    destinationId: data.destinationId,
+    categories: [],
+    shopName: "Một quán nào đó",
+    location: "Đà Nẵng",
+  };
+
+}
 
 const getSearchResult = async (searchText) => {
   if (!searchText) searchText = "";
@@ -72,6 +86,21 @@ const getSearchResult = async (searchText) => {
   console.log(res);
   return res;
 };
+
+const advancedSearch = async (searchText) => {
+  if (!searchText) searchText = "";
+  const API = process.env.REACT_APP_ENDPOINT + "search/advancedSearch?q=" + searchText;
+  console.log(API)
+  const res = await fetch(API)
+    .then((res) => res.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => console.log(err));
+  return res;
+}
+
+
 
 const getSearchResultByCategory = async (categories) => {
   if (categories.length === 0) return [];
@@ -105,6 +134,7 @@ export default function Search({changeFoodItems}) {
   const [searchResult, setsearchResult] = useState([]);
   const [searchText, setsearchText] = useState("");
   const [categories, setCategories] = useState([]);
+  const [isadvancedSearchOn, setIsAdvancedSearchOn] = useState(false);
   const [priceRange, setPriceRange] = useState(0);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [rating, setRating] = useState(0);
@@ -152,20 +182,22 @@ export default function Search({changeFoodItems}) {
         setsearchResult([]);
         setsearchResult(data.map(dataFilter));
       });
-      if (categories.length > 0) {
-        getSearchResultByCategory(categories).then((data) => {
-          setsearchResult(data.map(dataFilterC));
-        });
-      }
+
     }, 500),
     [categories]
   );
 
   const handleTextChange = (e) => {
-    setonsearch(true);
+
+
     setsearchText(e.target.value);
+
+    if (!isadvancedSearchOn)
+      {
+    setonsearch(true);
     if (!isFilterVisible)
     debouncedSearch(e.target.value);
+      }
   };
 
   const handleClear = () => {
@@ -240,6 +272,17 @@ export default function Search({changeFoodItems}) {
   }
   const handleSearch = async () => {
     //get data
+    if (isadvancedSearchOn)
+    {
+      setonsearch(true);
+      advancedSearch(searchText).then((data) => {
+        console.log("abc");
+        console.log(data);
+        setsearchResult([]);
+        setsearchResult(data.map(dataFilterA));
+      })
+    }
+    else 
     getFoodItems().then((data) => {
       changeFoodItems(data);
     })
@@ -284,6 +327,15 @@ export default function Search({changeFoodItems}) {
             </InputRightAddon>
           )}
         </InputGroup>
+        <Checkbox
+          m = "10px"
+          isChecked={isadvancedSearchOn}
+          onChange={() => setIsAdvancedSearchOn(!isadvancedSearchOn)}
+          
+            colorScheme="blue"
+          >
+            Tìm kiếm nâng cao
+          </Checkbox>
         {isFilterVisible && (
           <div>
             <Box mt={4}>
@@ -345,6 +397,8 @@ export default function Search({changeFoodItems}) {
           >
             Tìm kiếm
           </Button>
+         
+          
         </HStack>
 
         {onsearch && (
