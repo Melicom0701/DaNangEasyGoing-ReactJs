@@ -139,7 +139,16 @@ const SideBar =  (props) => {
         <Divider />
         {user && (
           <>
-          <Flex alignItems="center" p="5px 5px 0 20px" >
+
+          <Flex alignItems="center" p="5px 5px 0 20px" sx={{
+            transition: 'transform 0.2s',
+            _hover: { transform: 'scale(1.1)'}
+          }}
+          onClick={()=>{
+            navigate("/profile-edit");
+
+          }}
+          >
             <Image src={user.avatar} h="60px" w="60px" borderRadius="100%" alt="user" m="0 20px 0 0" />
             <Text color="blue" fontSize="15px" >{user.name}</Text>
           </Flex>

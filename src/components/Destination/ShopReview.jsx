@@ -1,9 +1,9 @@
 import DesCard from "./DesCard";
 import React from "react";
-import { Grid, GridItem, Spacer } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import Review from "./Review";
 import SideBar from "../SideBar/SideBar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import NotFound from "../NotFound/NotFound";
@@ -21,6 +21,13 @@ import {
   Button,
   Flex,
   Input,
+  useToast,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
 } from "@chakra-ui/react";
 import Search from "./Search";
 import Menu from "./Menu";
@@ -54,13 +61,14 @@ const destructuredReview = (item) => {
   const res = {
     id: item.id,
     author: item.User.name,
+    author_id: item.User.id,
     destinationId: item.destinationId,
     author_avatar: item.User.avatar,
     context: item.review,
     image: item.image,
     rate: item.rating,
     location: item.Destination.location,
-    shopName : item.Destination.name,
+    shopName: item.Destination.name,
   };
   return res;
 };
@@ -104,7 +112,6 @@ const destructuredItem = (item) => {
     priceMax: item.averagePrice,
     x: item.x,
     y: item.y,
-
   };
   return res;
 };
@@ -143,17 +150,14 @@ export default function ShopReview() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   let userId;
-  if (token)
-  userId = jwtDecode(token).id;
+  if (token) userId = jwtDecode(token).id;
 
   const openMenu = () => {
     setOnMenu(true);
-  }
+  };
   const closeMenu = () => {
     setOnMenu(false);
-  }
-
-
+  };
 
   const openPost = () => {
     setonPost(true);
@@ -163,34 +167,55 @@ export default function ShopReview() {
   };
   useEffect(() => {
     if (!userId) {
-      navigate("/login")
+      navigate("/login");
     }
   });
 
-  useEffect(() => 
-    {
-      const fetchData = async () => {
-        
-        const _destination = await getShopItems(DestinationId);
-        const _reviews = await getReviews(DestinationId);
-        const _isExist = await checkAPI(DestinationId);
-        setReviews(_reviews);
-        setDestination(_destination);
-        
-        setExist(_isExist);
-        if (_destination.ownner === userId) {
-          setOwner(true);
-        }
+  useEffect(() => {
+    const fetchData = async () => {
+      const _destination = await getShopItems(DestinationId);
+      const _reviews = await getReviews(DestinationId);
+      const _isExist = await checkAPI(DestinationId);
+      setReviews(_reviews);
+      setDestination(_destination);
+
+      setExist(_isExist);
+      if (_destination.ownner === userId) {
+        setOwner(true);
       }
+    };
 
-      fetchData();
+    fetchData();
+  }, [onPost]);
 
-    },[onPost])
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => setIsOpen(false);
+  const cancelRef = useRef();
+  const toast = useToast();
 
+  const handleDelete = () => {
+    const API = process.env.REACT_APP_ENDPOINT + "destination/" + DestinationId;
+    const token = localStorage.getItem("token");
+    const requestOptions = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    fetch(API, requestOptions)
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
 
-  
-    
-
+    toast({
+      title: "Đã xóa.",
+      description: "Đã xóa địa điểm.",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+    navigate("/");
+    onClose();
+  };
 
   const [onMaps, setonMaps] = useState(false);
   const openMaps = () => {
@@ -208,11 +233,11 @@ export default function ShopReview() {
 
   return (
     <div
-    style={{
-      backgroundColor: "rgb(240,242,245)",
-      minHeight: "100vh",
-      padding:"16px",
-    }}
+      style={{
+        backgroundColor: "rgb(240,242,245)",
+        minHeight: "100vh",
+        padding: "16px",
+      }}
     >
       <Grid templateColumns="repeat(8, 1fr)" gap={2}>
         <div
@@ -226,20 +251,22 @@ export default function ShopReview() {
           }}
         >
           <GridItem h="10">
-            <SideBar _active="Review"/>
+            <SideBar _active="Review" />
           </GridItem>
         </div>
 
-        <GridItem colSpan={7} >
+        <GridItem colSpan={7}>
           <DesCard item={Destination} />
 
-          <Grid templateColumns="repeat(8,1fr)" gap={2}
+          <Grid
+            templateColumns="repeat(8,1fr)"
+            gap={2}
             minHeight="100vh"
-            backgroundColor= "white"
+            backgroundColor="white"
             m="10px 0 0 0 "
             borderRadius="30px"
             p="30px"
-            >
+          >
             <GridItem colSpan={1} p=" 0 16px 0 0 ">
               <div
                 style={{
@@ -249,15 +276,13 @@ export default function ShopReview() {
                   height: "50px",
                 }}
               >
-               
-                
-               <Box height="80px"></Box>
+                <Box height="80px"></Box>
                 <Button
                   colorScheme="blue"
                   width="200px"
                   m="0 0 30px 0"
                   onClick={openPost}
-                            >
+                >
                   Viết Đánh Giá
                 </Button>
                 <Button
@@ -269,31 +294,29 @@ export default function ShopReview() {
                   Định Vị
                 </Button>
 
-               
-                {
-                  isOwner && (
-                    <>
-                    <Button colorScheme="red" m="10px" w="50px">
+                {isOwner && (
+                  <>
+                    <Button
+                      colorScheme="red"
+                      m="10px"
+                      w="50px"
+                      onClick={() => {
+                        setIsOpen(true);
+                      }}
+                    >
                       Xóa
                     </Button>
-                    <Button colorScheme="green" onClick={openMenu}  >
-                    Thêm Menu 
+                    <Button colorScheme="green" onClick={openMenu}>
+                      Thêm Menu
                     </Button>
-
-                    </>
-                     
-                    
-                  )
-
-                }
+                  </>
+                )}
               </div>
             </GridItem>
             <GridItem colSpan={6}>
               <Tabs>
                 <div
                   style={{
-                   
-                   
                     top: "0",
                     zIndex: "1",
                     height: "50px",
@@ -311,9 +334,7 @@ export default function ShopReview() {
                       return <Review item={item} />;
                     })}
                   </TabPanel>
-                  <TabPanel padding="30px 0 0 0">
-                    {/* <Review /> */}
-                  </TabPanel>
+                  <TabPanel padding="30px 0 0 0">{/* <Review /> */}</TabPanel>
                 </TabPanels>
               </Tabs>
             </GridItem>
@@ -321,10 +342,8 @@ export default function ShopReview() {
             <GridItem colSpan={1} p="0 0 0 5px">
               <div
                 style={{
-                  
                   position: "sticky",
                   top: "0",
-                  zIndex: "1",
                   height: "50px",
                   width: "360px",
                 }}
@@ -336,8 +355,7 @@ export default function ShopReview() {
                   </Text>
                 </Flex>
                 <br />
-                <Menu  Id ={DestinationId} onMenu />
-               
+                <Menu Id={DestinationId} onMenu />
               </div>
             </GridItem>
           </Grid>
@@ -352,13 +370,9 @@ export default function ShopReview() {
             width: "100%",
           }}
         >
-          <GridItem w="100%" >
-            
-          
-          </GridItem>
+          <GridItem w="100%"></GridItem>
         </div>
       </Grid>
-      
 
       {onMaps && (
         <div>
@@ -388,7 +402,7 @@ export default function ShopReview() {
         </div>
       )}
 
-     {onPost && (
+      {onPost && (
         <div>
           <div
             style={{
@@ -414,9 +428,9 @@ export default function ShopReview() {
             </Box>
           </div>
         </div>
-     )} 
+      )}
 
-     {onMenu && (
+      {onMenu && (
         <div>
           <div
             style={{
@@ -438,15 +452,41 @@ export default function ShopReview() {
               rounded="lg"
               onClick={(e) => e.stopPropagation()}
             >
-              <AddMenu Id={DestinationId} closeMenu={closeMenu} userId={userId} />
+              <AddMenu
+                Id={DestinationId}
+                closeMenu={closeMenu}
+                userId={userId}
+              />
             </Box>
           </div>
         </div>
-     )
-
-     }
-
+      )}
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader>Xác Nhận Xóa</AlertDialogHeader>
+            <AlertDialogBody>
+              Bạn có chắc chắn muốn xóa mục này không?
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Hủy
+              </Button>
+              <Button
+                colorScheme="red"
+                onClick={handleDelete}
+                ml={3}
+              >
+                Xóa
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </div>
-    
   );
 }

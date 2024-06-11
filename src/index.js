@@ -12,6 +12,7 @@ import NotFound from "./components/NotFound/NotFound";
 import Saved from "./pages/Saved";
 import EasyGoing from "./pages/EasyGoing";
 import Register from "./pages/register";
+import ProfileEdit from "./pages/ProfileEdit";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //check if the user is logged in
 const token = localStorage.getItem("token");
@@ -45,6 +46,7 @@ root.render(
           <Route path="/NewDestination" element={<NewDestination />} />
           <Route path="/EasyGoing" element={<EasyGoing />} />
           <Route path="/Saved" element={<Saved />} />
+          <Route path="/Profile-Edit" element={<ProfileEdit />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </ChakraProvider>

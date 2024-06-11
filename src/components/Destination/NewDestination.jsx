@@ -22,6 +22,8 @@ import Maps from "../Maps/getCoorMaps";
 import { FiCamera } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { delay } from "framer-motion";
 
 const NewDestination = () => {
   const checkInput = () => {
@@ -81,6 +83,7 @@ const NewDestination = () => {
   const [onMaps, setOnMaps] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [cate, setCate] = useState("food");
+  const navigate = useNavigate();
 
   const handleImageChange = async (e) => {
     const imageFile = e.target.files[0];
@@ -109,7 +112,6 @@ const NewDestination = () => {
     fetch(API, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setImagePreview(data.url);
       })
       .catch((error) => console.log("error", error));
@@ -156,7 +158,17 @@ const NewDestination = () => {
         await fetch(API, requestOptions)
             .then((response) => response)
             .then((data) => {
-                console.log(data);
+                console.log("abc" + data);
+                if (data.ok) {
+                    //toast delay 2s
+                    toast.success("Thêm địa điểm thành công");
+                    setTimeout(() => {
+                        navigate("/");
+                    }, 2000);
+                    } else {
+                    toast.error("Thêm địa điểm thất bại");
+                }
+
             })
             .catch((error) => console.log("error", error));
       })
