@@ -146,7 +146,7 @@ const NewDestination = () => {
                 description: description,
                 location: location,
                 startTime: startTime,
-                image : imagePreview?imagePreview:"",
+                image : imageUrl?imagePreview:"",
                 endTime: endTime,
                 averageRating: averageRating,
                 averagePrice: averagePrice,

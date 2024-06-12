@@ -94,9 +94,14 @@ const advancedSearch = async (searchText) => {
   const res = await fetch(API)
     .then((res) => res.json())
     .then((data) => {
+      if (data.error) return [];
       return data;
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err)
+      return [];
+
+    });
   return res;
 }
 
