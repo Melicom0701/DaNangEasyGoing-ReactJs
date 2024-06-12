@@ -170,7 +170,8 @@ export default function ShopReview() {
       navigate("/login");
     }
   });
-
+  const [x, setX] = useState(108.20623);
+  const [y, setY] = useState(16.047079);
   useEffect(() => {
     const fetchData = async () => {
       const _destination = await getShopItems(DestinationId);
@@ -178,7 +179,8 @@ export default function ShopReview() {
       const _isExist = await checkAPI(DestinationId);
       setReviews(_reviews);
       setDestination(_destination);
-
+      setX(_destination.x);
+      setY(_destination.y);
       setExist(_isExist);
       if (_destination.ownner === userId) {
         setOwner(true);
@@ -225,8 +227,7 @@ export default function ShopReview() {
   const closeMaps = () => {
     setonMaps(false);
   };
-  const x = Destination.x;
-  const y = Destination.y;
+
   if (!isExist) {
     return <NotFound />;
   }
@@ -333,6 +334,16 @@ export default function ShopReview() {
                     {Reviews.map((item) => {
                       return <Review item={item} />;
                     })}
+
+                    <Box
+                      w="650px"
+                      h="750px"
+                      rounded="lg"
+                      onClick={(e) => e.stopPropagation()}
+                      p="0px 0 0 0"
+                    >
+                      <Maps selectPosition={{ lat: x, lon: y }} />
+                    </Box>
                   </TabPanel>
                   <TabPanel padding="30px 0 0 0">{/* <Review /> */}</TabPanel>
                 </TabPanels>
@@ -360,6 +371,7 @@ export default function ShopReview() {
             </GridItem>
           </Grid>
         </GridItem>
+
         <div
           style={{
             backgroundColor: "rgb(240,242,245)",
@@ -476,11 +488,7 @@ export default function ShopReview() {
               <Button ref={cancelRef} onClick={onClose}>
                 Hủy
               </Button>
-              <Button
-                colorScheme="red"
-                onClick={handleDelete}
-                ml={3}
-              >
+              <Button colorScheme="red" onClick={handleDelete} ml={3}>
                 Xóa
               </Button>
             </AlertDialogFooter>
