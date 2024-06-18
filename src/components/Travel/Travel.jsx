@@ -114,7 +114,7 @@ export default function MainLayout() {
             
             <br />
             {/* <Input placeholder='Hôm nay ăn gì ...' bg='white'  position="sticky" top="20px" zIndex="999" w="1000px" /> */}
-            <div style={{  width:"1210px"}} >
+            <div style={{  width:"1000px"}} >
             <Search changeFoodItems = {changeFoodItems}  />
             </div>
             <TabList top="60px" >
